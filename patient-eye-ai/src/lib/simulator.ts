@@ -98,7 +98,7 @@ class Simulator {
     st.scenario = { kind, start: Date.now() };
     this.emit();
   }
-
+  
   clear(patientId: string) {
     const st = this.patients.get(patientId);
     if (st) st.scenario = undefined;
@@ -111,6 +111,13 @@ class Simulator {
   getScenario(id: string): ScenarioKind | undefined {
     return this.patients.get(id)?.scenario?.kind;
   }
+  accept(patientId: string, kind: ScenarioKind) {
+    const st = this.patients.get(patientId);
+    if (!st) return;
+    st.scenario = { kind, start: Date.now() };
+    this.emit();
+  }
+
 
   subscribe = (fn: () => void) => {
     this.listeners.add(fn);
@@ -123,3 +130,6 @@ class Simulator {
 }
 
 export const simulator = new Simulator();
+
+
+
